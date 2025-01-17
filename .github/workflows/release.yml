@@ -53,9 +53,11 @@ jobs:
               run: git push --set-upstream origin ${{ env.RELEASE_BRANCH_NAME }}
  
             - name: Create default branch pull request
-              run: gh pr create --title "Release/${{ env.RELEASE_BRANCH_NAME }}" --body "Release ${{ env.VERSION_NUMBER }}"
+              run: gh pr create --title "Release/${{ env.VERSION_NUMBER }}" --body "Release ${{ env.VERSION_NUMBER }}"
+              continue-on-error: true
 
             - name: Create develop branch pull request
               env:
                 DEVELOP_BRANCH: ${{ steps.develop-branch.outputs.DEVELOP_BRANCH }}
-              run: gh pr create --title "Release/${{ env.RELEASE_BRANCH_NAME }}" --body "Release ${{ env.VERSION_NUMBER}}" --base ${{ env.DEVELOP_BRANCH }}
+              run: gh pr create --title "Release/${{ env.VERSION_NUMBER }}" --body "Release ${{ env.VERSION_NUMBER}}" --base ${{ env.DEVELOP_BRANCH }}
+              continue-on-error: true
