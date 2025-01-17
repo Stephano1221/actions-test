@@ -32,8 +32,8 @@ jobs:
  
             - name: Create release branch
               run: git switch -c ${{ env.RELEASE_BRANCH_NAME }} develop
+              continue-on-error: true
             - name: Create release branch
-              if: failure()
               run: git switch -c ${{ env.RELEASE_BRANCH_NAME }} Develop
    
         #     name: Updates RELEASENOTES.md
@@ -48,6 +48,6 @@ jobs:
 
             - name: Create develop branch pull request
               run: gh pr create --title "Release/${{ env.RELEASE_BRANCH_NAME }}" --body "Release ${{ env.VERSION_NUMBER}}" --base develop
+              continue-on-error: true
             - name: Create Develop branch pull request
-              if: failure()
               run: gh pr create --title "Release/${{ env.RELEASE_BRANCH_NAME }}" --body "Release ${{ env.VERSION_NUMBER}}" --base Develop
