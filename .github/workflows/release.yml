@@ -33,11 +33,11 @@ jobs:
             - name: Get develop branch name
               id: develop-branch
               run: |
-                if (git branch -l develop) {
-                    echo "DEVELOP_BRANCH=develop"
-                } else {
-                    echo "DEVELOP_BRANCH=Develop"
-                }
+                if git branch -l develop; then
+                    echo "DEVELOP_BRANCH=develop";
+                else
+                    echo "DEVELOP_BRANCH=Develop";
+                fi
  
             - name: Create release branch
               env:
