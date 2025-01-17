@@ -25,6 +25,7 @@ jobs:
         name: Prepare Release
         runs-on: ubuntu-latest
         env:
+            GH_TOKEN: ${{ github.token }}
             RELEASE_BRANCH_NAME: Release/${{ github.event.inputs.versionNumber }}
             VERSION_NUMBER: v${{ github.event.inputs.versionNumber }}
         steps:
