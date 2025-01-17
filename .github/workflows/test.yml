@@ -12,7 +12,7 @@ jobs:
         runs-on: ${{ matrix.os }}
         steps:
             - uses: actions/checkout@v4
-            - name: Build
+            - name: "Build ${{ matrix.os }}"
               run: cargo build --verbose
-            - name: Run tests
+            - name: "Run tests ${{ matrix.os }}"
               run: cargo test --verbose
