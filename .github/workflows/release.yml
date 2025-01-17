@@ -35,9 +35,9 @@ jobs:
               id: develop-branch
               run: |
                 if git branch -l develop; then
-                    echo "DEVELOP_BRANCH=develop";
+                    echo "DEVELOP_BRANCH=develop" >> $GITHUB_OUTPUT;
                 else
-                    echo "DEVELOP_BRANCH=Develop";
+                    echo "DEVELOP_BRANCH=Develop" >> $GITHUB_OUTPUT;
                 fi
  
             - name: Create release branch
