@@ -35,6 +35,7 @@ jobs:
               id: develop-branch
               run: |
                 if git branch -l develop; then
+                    echo $(git branch -l);
                     echo "DEVELOP_BRANCH=develop" >> $GITHUB_OUTPUT;
                 else
                     echo "DEVELOP_BRANCH=Develop" >> $GITHUB_OUTPUT;
@@ -43,7 +44,7 @@ jobs:
             - name: Create release branch
               env:
                 DEVELOP_BRANCH: ${{ steps.develop-branch.outputs.DEVELOP_BRANCH }}
-              run: git checkout -b ${{ env.RELEASE_BRANCH_NAME }} ${{ env.DEVELOP_BRANCH }}
+              run: git checkout -b ${{ env.RELEASE_BRANCH_NAME }} origin/${{ env.DEVELOP_BRANCH }}
    
         #     name: Updates RELEASENOTES.md
         #     steps:
