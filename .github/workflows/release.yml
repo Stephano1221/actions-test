@@ -31,11 +31,13 @@ jobs:
         steps:
             - uses: actions/checkout@v2
 
+            - name: List branches
+              run: git branch -l
+
             - name: Get develop branch name
               id: develop-branch
               run: |
                 if git branch -l develop; then
-                    echo $(git branch -l);
                     echo "DEVELOP_BRANCH=develop" >> $GITHUB_OUTPUT;
                 else
                     echo "DEVELOP_BRANCH=Develop" >> $GITHUB_OUTPUT;
