@@ -29,25 +29,32 @@ jobs:
             VERSION_NUMBER: v${{ github.event.inputs.versionNumber }}
         steps:
             - uses: actions/checkout@v2
+
+            - name: Get develop branch name
+              id: develop-branch
+              run: |
+                if (git branch -l develop) {
+                    echo "DEVELOP_BRANCH=develop"
+                } else {
+                    echo "DEVELOP_BRANCH=Develop"
+                }
  
             - name: Create release branch
-              run: git switch -c ${{ env.RELEASE_BRANCH_NAME }} develop
-              continue-on-error: true
-            - name: Create release branch
-              run: git switch -c ${{ env.RELEASE_BRANCH_NAME }} Develop
+              env:
+                DEVELOP_BRANCH: ${{ steps.develop-branch.outputs.DEVELOP_BRANCH }}
+              run: git switch --create ${{ env.RELEASE_BRANCH_NAME }} ${{ env.DEVELOP_BRANCH }}
    
         #     name: Updates RELEASENOTES.md
         #     steps:
         #         - run:
  
             - name: Push release branch
-              run: git push -u origin ${{ env.RELEASE_BRANCH_NAME }}
+              run: git push --set-upstream origin ${{ env.RELEASE_BRANCH_NAME }}
  
             - name: Create default branch pull request
               run: gh pr create --title "Release/${{ env.RELEASE_BRANCH_NAME }}" --body "Release ${{ env.VERSION_NUMBER }}"
 
             - name: Create develop branch pull request
-              run: gh pr create --title "Release/${{ env.RELEASE_BRANCH_NAME }}" --body "Release ${{ env.VERSION_NUMBER}}" --base develop
-              continue-on-error: true
-            - name: Create Develop branch pull request
-              run: gh pr create --title "Release/${{ env.RELEASE_BRANCH_NAME }}" --body "Release ${{ env.VERSION_NUMBER}}" --base Develop
+              env:
+                DEVELOP_BRANCH: ${{ steps.develop-branch.outputs.DEVELOP_BRANCH }}
+              run: gh pr create --title "Release/${{ env.RELEASE_BRANCH_NAME }}" --body "Release ${{ env.VERSION_NUMBER}}" --base ${{ env.DEVELOP_BRANCH }}
