@@ -39,11 +39,13 @@ jobs:
             - name: Get develop branch name
               id: develop-branch
               run: |
-                if git ls-remote --branches --exit-code origin refs/heads/develop; then
-                    echo $?
+                if git branch --all --contains remotes/origin/develop; then
                     echo "DEVELOP_BRANCH=remotes/origin/develop" >> $GITHUB_OUTPUT;
-                else
+                elif git branch --all --contains remotes/origin/Develop; then
                     echo "DEVELOP_BRANCH=remotes/origin/Develop" >> $GITHUB_OUTPUT;
+                else
+                    echo "Unable to find develop branch";
+                    exit 1;
                 fi
  
             - name: Create release branch
