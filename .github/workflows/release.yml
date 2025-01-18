@@ -39,9 +39,9 @@ jobs:
             - name: Get develop branch name
               id: develop-branch
               run: |
-                if git branch --quiet --all --contains remotes/origin/develop; then
+                if git branch --all --contains remotes/origin/develop; then
                     echo "DEVELOP_BRANCH=remotes/origin/develop" >> $GITHUB_OUTPUT;
-                elif git branch --quiet --all --contains remotes/origin/Develop; then
+                elif git branch --all --contains remotes/origin/Develop; then
                     echo "DEVELOP_BRANCH=remotes/origin/Develop" >> $GITHUB_OUTPUT;
                 else
                     echo "::error::Unable to find develop branch";
