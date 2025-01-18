@@ -27,7 +27,7 @@ jobs:
         env:
             GH_TOKEN: ${{ github.token }}
             RELEASE_BRANCH_NAME: Release/${{ github.event.inputs.versionNumber }}
-            VERSION_NUMBER: v${{ github.event.inputs.versionNumber }}
+            VERSION_NUMBER: ${{ github.event.inputs.versionNumber }}
         steps:
             - uses: actions/checkout@v4
               with:
@@ -64,5 +64,5 @@ jobs:
             - name: Create develop branch pull request
               env:
                 DEVELOP_BRANCH: ${{ steps.develop-branch.outputs.DEVELOP_BRANCH }}
-              run: gh pr create --title "Release/${{ env.VERSION_NUMBER }}" --body "Release ${{ env.VERSION_NUMBER}}" --base ${{ env.DEVELOP_BRANCH }}
+              run: gh pr create --title "Release/v${{ env.VERSION_NUMBER }}" --body "Release v${{ env.VERSION_NUMBER}}" --base ${{ env.DEVELOP_BRANCH }}
               continue-on-error: true
