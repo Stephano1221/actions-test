@@ -33,9 +33,6 @@ jobs:
               with:
                 fetch-depth: 0
 
-            - name: List branches
-              run: git branch --all --list
-
             - name: Get develop branch name
               id: develop-branch
               run: |
