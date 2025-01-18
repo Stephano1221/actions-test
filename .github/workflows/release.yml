@@ -26,8 +26,8 @@ jobs:
         runs-on: ubuntu-latest
         env:
             GH_TOKEN: ${{ github.token }}
-            RELEASE_BRANCH_NAME: Release/${{ github.event.inputs.versionNumber }}
-            VERSION_NUMBER: v${{ github.event.inputs.versionNumber }}
+            RELEASE_BRANCH_NAME: release/${{ github.event.inputs.versionNumber }}
+            VERSION_NUMBER: ${{ github.event.inputs.versionNumber }}
         steps:
             - uses: actions/checkout@v4
               with:
@@ -39,9 +39,9 @@ jobs:
             - name: Get develop branch name
               id: develop-branch
               run: |
-                if git branch --all --contains remotes/origin/develop; then
+                if git branch --quiet --all --contains remotes/origin/develop; then
                     echo "DEVELOP_BRANCH=remotes/origin/develop" >> $GITHUB_OUTPUT;
-                elif git branch --all --contains remotes/origin/Develop; then
+                elif git branch --quiet --all --contains remotes/origin/Develop; then
                     echo "DEVELOP_BRANCH=remotes/origin/Develop" >> $GITHUB_OUTPUT;
                 else
                     echo "::error::Unable to find develop branch";
@@ -61,11 +61,11 @@ jobs:
               run: git push --set-upstream origin ${{ env.RELEASE_BRANCH_NAME }}
  
             - name: Create default branch pull request
-              run: gh pr create --title "Release/${{ env.VERSION_NUMBER }}" --body "Release ${{ env.VERSION_NUMBER }}"
+              run: gh pr create --title "Release v${{ env.VERSION_NUMBER }}" --body "Release v${{ env.VERSION_NUMBER }}"
               continue-on-error: true
 
             - name: Create develop branch pull request
               env:
                 DEVELOP_BRANCH: ${{ steps.develop-branch.outputs.DEVELOP_BRANCH }}
-              run: gh pr create --title "Release/${{ env.VERSION_NUMBER }}" --body "Release ${{ env.VERSION_NUMBER}}" --base ${{ env.DEVELOP_BRANCH }}
+              run: gh pr create --title "Release v${{ env.VERSION_NUMBER }}" --body "Release v${{ env.VERSION_NUMBER}}" --base ${{ env.DEVELOP_BRANCH }}
               continue-on-error: true
