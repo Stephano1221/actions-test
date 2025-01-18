@@ -39,7 +39,7 @@ jobs:
             - name: Get develop branch name
               id: develop-branch
               run: |
-                if [[ $(git branch --all --list remotes/origin/develop) ]]; then
+                if git branch --all --list remotes/origin/develop; then
                     echo "DEVELOP_BRANCH=remotes/origin/develop" >> $GITHUB_OUTPUT;
                 else
                     echo "DEVELOP_BRANCH=remotes/origin/Develop" >> $GITHUB_OUTPUT;
