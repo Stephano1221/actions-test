@@ -39,10 +39,10 @@ jobs:
             - name: Get develop branch name
               id: develop-branch
               run: |
-                if git branch --all --list develop; then
-                    echo "DEVELOP_BRANCH=develop" >> $GITHUB_OUTPUT;
+                if git branch --all --list remotes/origin/develop; then
+                    echo "DEVELOP_BRANCH=remotes/origin/develop" >> $GITHUB_OUTPUT;
                 else
-                    echo "DEVELOP_BRANCH=Develop" >> $GITHUB_OUTPUT;
+                    echo "DEVELOP_BRANCH=remotes/origin/Develop" >> $GITHUB_OUTPUT;
                 fi
  
             - name: Create release branch
