@@ -44,7 +44,7 @@ jobs:
                 elif git branch --all --contains remotes/origin/Develop; then
                     echo "DEVELOP_BRANCH=remotes/origin/Develop" >> $GITHUB_OUTPUT;
                 else
-                    echo "Unable to find develop branch";
+                    echo "::error Unable to find develop branch";
                     exit 1;
                 fi
  
