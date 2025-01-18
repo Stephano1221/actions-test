@@ -34,12 +34,12 @@ jobs:
                 fetch-depth: 0
 
             - name: List branches
-              run: git branch -l
+              run: git branch --all --list
 
             - name: Get develop branch name
               id: develop-branch
               run: |
-                if git branch -l develop; then
+                if git branch --all --list develop; then
                     echo "DEVELOP_BRANCH=develop" >> $GITHUB_OUTPUT;
                 else
                     echo "DEVELOP_BRANCH=Develop" >> $GITHUB_OUTPUT;
