@@ -66,19 +66,19 @@ jobs:
               env:
                 DEVELOP_BRANCH: ${{ steps.develop-branch.outputs.DEVELOP_BRANCH }}
               run: git switch --create ${{ env.RELEASE_BRANCH_NAME }} remotes/origin/${{ env.DEVELOP_BRANCH }}
+
+            - name: Push release branch
+              run: git push --set-upstream origin ${{ env.RELEASE_BRANCH_NAME }}
+
+            - name: Create default branch pull request
+              id: create-default-pr
+              run: gh pr create --title "Release v${{ env.VERSION_NUMBER }}" --body "Release v${{ env.VERSION_NUMBER }}"
    
             - name: Update RELEASENOTES.md
               run: |
                 python ./.github/workflows/update_release_notes.py "${{ env.VERSION_NUMBER }}" "${{ env.RELEASE_DATE }}" "${{ env.WIKI_LINK }}"
                 git add RELEASENOTES.md
                 git commit --message "Update RELEASENOTES.md"
-
-            - name: Push release branch
-              run: git push --set-upstream origin ${{ env.RELEASE_BRANCH_NAME }}
- 
-            - name: Create default branch pull request
-              id: create-default-pr
-              run: gh pr create --title "Release v${{ env.VERSION_NUMBER }}" --body "Release v${{ env.VERSION_NUMBER }}"
 
             - name: Create develop branch pull request
               env:
