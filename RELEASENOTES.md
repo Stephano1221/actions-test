@@ -2,6 +2,9 @@
 
 ## v.next
 
+## v0.1.0 - 01 Jan 2025
+- Full details can be found in the [release notes](www.example.com)
+
 ## v0.6.0 - 16 Dec 2024
 - Full details can be found in the [release notes](www.example.com)
 
