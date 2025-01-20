@@ -1,9 +1,9 @@
 import sys
 import textwrap
  
-version_number = sys.argv[0]
-release_date = sys.argv[1]
-wiki_link = sys.argv[2]
+version_number = sys.argv[1]
+release_date = sys.argv[2]
+wiki_link = sys.argv[3]
  
 vnext = "## v.next"
 release_note = textwrap.dedent(f"""\
