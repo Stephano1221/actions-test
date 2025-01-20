@@ -9,7 +9,7 @@ vnext = "## v.next"
 release_note = textwrap.dedent(f"""\
     {vnext}
     
-    ## {version_number} - {release_date}
+    ## v{version_number} - {release_date}
     - Full details can be found in the [release notes]({wiki_link})\
 """)
  
