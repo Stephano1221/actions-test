@@ -57,8 +57,8 @@ jobs:
  
             - name: Create release branch
               env:
-                DEVELOP_BRANCH: remotes/origin/${{ steps.develop-branch.outputs.DEVELOP_BRANCH }}
-              run: git switch --create ${{ env.RELEASE_BRANCH_NAME }} ${{ env.DEVELOP_BRANCH }}
+                DEVELOP_BRANCH: ${{ steps.develop-branch.outputs.DEVELOP_BRANCH }}
+              run: git switch --create ${{ env.RELEASE_BRANCH_NAME }} remotes/origin/${{ env.DEVELOP_BRANCH }}
    
             - name: Update RELEASENOTES.md
               run: |
@@ -75,7 +75,7 @@ jobs:
 
             - name: Create develop branch pull request
               env:
-                DEVELOP_BRANCH: remotes/origin/${{ steps.develop-branch.outputs.DEVELOP_BRANCH }}
+                DEVELOP_BRANCH: ${{ steps.develop-branch.outputs.DEVELOP_BRANCH }}
               run: gh pr create --title "Release v${{ env.VERSION_NUMBER }}" --body "Release v${{ env.VERSION_NUMBER}}" --base ${{ env.DEVELOP_BRANCH }}
             
             - name: Cleanup on failure
