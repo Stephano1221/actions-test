@@ -8,12 +8,12 @@ on:
                 description: 'Version number being released (excluding the "v" prefix)'
                 required: true
                 type: string
-            releaseNotesLink:
-                description: 'Link to release notes wiki page for this release'
-                required: false
-                type: string
             releaseDate:
                 description: 'Anticipated release date'
+                required: false
+                type: string
+            wikiLink:
+                description: 'Link to release notes wiki page for this release'
                 required: false
                 type: string
 
@@ -23,8 +23,10 @@ permissions:
 
 env:
   GH_TOKEN: ${{ github.token }}
-  RELEASE_BRANCH_NAME: release/${{ github.event.inputs.versionNumber }}
   VERSION_NUMBER: ${{ github.event.inputs.versionNumber }}
+  RELEASE_DATE: ${{ github.event.inputs.releaseDate }}
+  WIKI_LINK: ${{ github.event.inputs.wikiLink }}
+  RELEASE_BRANCH_NAME: release/${{ github.event.inputs.versionNumber }}
 
 jobs:
     prepare-release:
@@ -33,8 +35,6 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v4
-              with:
-                fetch-depth: 0
 
             - name: Get develop branch name
               id: develop-branch
@@ -53,19 +53,27 @@ jobs:
                 DEVELOP_BRANCH: ${{ steps.develop-branch.outputs.DEVELOP_BRANCH }}
               run: git switch --create ${{ env.RELEASE_BRANCH_NAME }} ${{ env.DEVELOP_BRANCH }}
    
-            # name: Updates RELEASENOTES.md
-            # steps:
-            # - run:
- 
+            - name: Update RELEASENOTES.md
+              run: |
+                if ! python ./.github/workflows/update_release_notes.py ${{ env.VERSION_NUMBER }} ${{ env.RELEASE_DATE }} ${{ env.WIKI_LINK }}; then
+                    exit 1;
+                fi
+                git add RELEASENOTES.md
+
             - name: Push release branch
               run: git push --set-upstream origin ${{ env.RELEASE_BRANCH_NAME }}
  
             - name: Create default branch pull request
+              id: create-default-pr
               run: gh pr create --title "Release v${{ env.VERSION_NUMBER }}" --body "Release v${{ env.VERSION_NUMBER }}"
-              continue-on-error: true
 
             - name: Create develop branch pull request
               env:
                 DEVELOP_BRANCH: ${{ steps.develop-branch.outputs.DEVELOP_BRANCH }}
               run: gh pr create --title "Release v${{ env.VERSION_NUMBER }}" --body "Release v${{ env.VERSION_NUMBER}}" --base ${{ env.DEVELOP_BRANCH }}
-              continue-on-error: true
+            
+            - name: Cleanup on failure
+              if: failure()
+              run: |
+                gh pr close ${{ env.RELEASE_BRANCH_NAME }}
+                git push --delete origin ${{ env.RELEASE_BRANCH_NAME }}
