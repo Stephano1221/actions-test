@@ -1,4 +1,4 @@
-name: prepare-release
+name: Prepare Release
 run-name: Prepare v${{ github.event.inputs.versionNumber }} Release
 
 on:
@@ -10,11 +10,11 @@ on:
                 type: string
             releaseDate:
                 description: 'Anticipated release date'
-                required: false
+                required: true
                 type: string
             wikiLink:
                 description: 'Link to release notes wiki page for this release'
-                required: false
+                required: true
                 type: string
 
 permissions:
@@ -35,6 +35,8 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
 
             - name: Get develop branch name
               id: develop-branch
