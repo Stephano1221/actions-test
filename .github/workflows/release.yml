@@ -43,6 +43,13 @@ jobs:
                 git config user.name github-actions[bot]
                 git config user.email 41898282+github-actions[bot]@users.noreply.github.com
 
+            - name: Cleanup existing changes
+              run: |
+                gh pr close ${{ env.RELEASE_BRANCH_NAME }}
+                gh pr close ${{ env.RELEASE_BRANCH_NAME }}
+                git push --delete origin ${{ env.RELEASE_BRANCH_NAME }}
+              continue-on-error: true
+
             - name: Get develop branch name
               id: develop-branch
               run: |
@@ -54,13 +61,6 @@ jobs:
                     echo "::error::Unable to find develop branch";
                     exit 1;
                 fi
-
-            - name: Cleanup existing changes
-              run: |
-                gh pr close ${{ env.RELEASE_BRANCH_NAME }}
-                gh pr close ${{ env.RELEASE_BRANCH_NAME }}
-                git push --delete origin ${{ env.RELEASE_BRANCH_NAME }}
-              continue-on-error: true
  
             - name: Create release branch
               env:
