@@ -62,7 +62,7 @@ jobs:
    
             - name: Update RELEASENOTES.md
               run: |
-                python ./.github/workflows/update_release_notes.py ${{ env.VERSION_NUMBER }} ${{ env.RELEASE_DATE }} ${{ env.WIKI_LINK }}
+                python ./.github/workflows/update_release_notes.py "${{ env.VERSION_NUMBER }}" "${{ env.RELEASE_DATE }}" "${{ env.WIKI_LINK }}"
                 git add RELEASENOTES.md
                 git commit --message "Update RELEASENOTES.md"
 
