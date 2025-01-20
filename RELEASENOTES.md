@@ -2,6 +2,9 @@
 
 ## v.next
 
+## ./.github/workflows/update_release_notes.py - 0.1.0
+- Full details can be found in the [release notes](01)
+
 ## v0.6.0 - 16 Dec 2024
 - Full details can be found in the [release notes](www.example.com)
 
