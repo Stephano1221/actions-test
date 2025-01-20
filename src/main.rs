@@ -1,5 +1,5 @@
 fn main() {
-    println!("Hello, world!!");
+    println!("Hello, world!");
 }
 
 fn add(a: i32, b: i32) -> i32 {
