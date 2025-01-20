@@ -5,7 +5,7 @@ on:
     workflow_dispatch:
         inputs:
             versionNumber:
-                description: 'Version number being released (excluding the "v" prefix)'
+                description: 'Version number (excluding the "v" prefix)'
                 required: true
                 type: string
             releaseDate:
