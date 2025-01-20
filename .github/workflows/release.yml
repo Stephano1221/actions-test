@@ -76,7 +76,10 @@ jobs:
             - name: Create develop branch pull request
               env:
                 DEVELOP_BRANCH: ${{ steps.develop-branch.outputs.DEVELOP_BRANCH }}
-              run: gh pr create --title "Release v${{ env.VERSION_NUMBER }}" --body "Release v${{ env.VERSION_NUMBER}}" --base ${{ env.DEVELOP_BRANCH }}
+              run: |
+                git branch
+                git diff develop...release/0.1.0
+                gh pr create --title "Release v${{ env.VERSION_NUMBER }}" --body "Release v${{ env.VERSION_NUMBER}}" --base ${{ env.DEVELOP_BRANCH }}
             
             - name: Cleanup on failure
               if: failure()
