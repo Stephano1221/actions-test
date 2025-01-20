@@ -44,10 +44,7 @@ jobs:
                 git config user.email 41898282+github-actions[bot]@users.noreply.github.com
 
             - name: Cleanup existing changes
-              run: |
-                gh pr close ${{ env.RELEASE_BRANCH_NAME }}
-                gh pr close ${{ env.RELEASE_BRANCH_NAME }}
-                git push --delete origin ${{ env.RELEASE_BRANCH_NAME }}
+              run: git push --delete origin ${{ env.RELEASE_BRANCH_NAME }}
               continue-on-error: true
 
             - name: Get develop branch name
@@ -86,7 +83,4 @@ jobs:
             
             - name: Cleanup on failure
               if: failure()
-              run: |
-                gh pr close ${{ env.RELEASE_BRANCH_NAME }}
-                gh pr close ${{ env.RELEASE_BRANCH_NAME }}
-                git push --delete origin ${{ env.RELEASE_BRANCH_NAME }}
+              run: git push --delete origin ${{ env.RELEASE_BRANCH_NAME }}
