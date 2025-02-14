@@ -1,0 +1,22 @@
+name: New6
+
+on:
+    workflow_dispatch:
+        inputs:
+            versionNumber:
+                description: 'Version number (excluding the "v" prefix)'
+                required: true
+                type: string
+
+jobs:
+    test:
+        strategy:
+            matrix:
+                os: [ubuntu-latest, windows-latest]
+        runs-on: ${{ matrix.os }}
+        steps:
+            - uses: actions/checkout@v4
+            - name: "Build ${{ matrix.os }}"
+              run: cargo build --verbose
+            - name: "Run tests ${{ matrix.os }}"
+              run: cargo test --verbose
